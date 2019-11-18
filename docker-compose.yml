@@ -1,0 +1,25 @@
+version: '3'
+services:
+  node1:
+    build: ./node1
+    command: sh -c "npm install && npm run startDev"
+    environment:
+      - NODE_ENV=development
+      - PORT=8000
+    ports:
+      - '8000:8000'
+    working_dir: /root/node1
+    volumes:
+      - ./node1:/root/node1:cached
+
+  py1:
+    image: python:3.7-slim-buster
+    command: sh -c "pip install -r requirements.txt && python -m server"
+    environment:
+      - PORT=9000
+      - FLASK_ENV=development
+    ports:
+      - "9000:9000"
+    working_dir: /root/py1
+    volumes:
+      - ./py1:/root/py1:cached
